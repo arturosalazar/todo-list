@@ -70,10 +70,8 @@ let handlers = {
     todoList.deleteTodo(position);
     view.displayTodos();
   },
-  toggleCompleted: function() {
-    let toggleTodoPositionInput = document.getElementById('toggleTodoPositionInput');
-    todoList.toggleCompleted(toggleTodoPositionInput.valueAsNumber);
-    toggleTodoPositionInput.value = '';
+  toggleCompleted: function(position) {
+    todoList.toggleCompleted(position);
     view.displayTodos();
   },
   toggleAll: function() {
@@ -103,6 +101,7 @@ let view = {
       todoLi.id = i;
       todoLi.textContent = todoTextWithCompletion;
       todoLi.appendChild(this.createDeleteButton());
+      todoLi.appendChild(this.createToggleButton());
       todosUl.appendChild(todoLi);
     }
   },
@@ -112,6 +111,12 @@ let view = {
     deleteButton.textContent = 'Delete';
     deleteButton.className = 'deleteButton';
     return deleteButton;
+  },
+  createToggleButton: function() {
+    let toggleButton = document.createElement('button');
+    toggleButton.textContent = 'Toggle';
+    toggleButton.className = 'toggleButton';
+    return toggleButton;
   },
   //set up all of the event listeners for program
   setUpEventListeners: function (){
@@ -123,6 +128,9 @@ let view = {
       if (elementClicked.className === 'deleteButton'){
         //if so, delete the <li> the button is on using parent's id
         handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
+      } else if (elementClicked.className === 'toggleButton'){
+        handlers.toggleCompleted(parseInt(elementClicked.parentNode.id));
+        // console.log(parseInt(elementClicked.parentNode.id));
       }
     });
 
@@ -134,8 +142,6 @@ let view = {
         //check which field was clicked - run the appropriate handler method
         if(event.target.id === "addTodosTextInput" && event.target.value != ''){
             handlers.addTodo();
-        } else if(event.target.id === "toggleTodoPositionInput"){
-            handlers.toggleCompleted();
         } else if(event.target.id === "changeTodoPositionInput" || event.target.id === "changeTodoTextInput"){
             handlers.changeTodo();
         }
