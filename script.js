@@ -113,7 +113,7 @@ let view = {
     deleteButton.className = 'deleteButton';
     return deleteButton;
   },
-
+  //set up all of the event listeners for program
   setUpEventListeners: function (){
     let todosUl = document.querySelector('ul');
 
@@ -123,6 +123,16 @@ let view = {
       if (elementClicked.className === 'deleteButton'){
         //if so, delete the <li> the button is on using parent's id
         handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
+      }
+    });
+
+    //TODO: set up event listener for enter key if a field is selected
+    let addInput = document.getElementById('addTodosTextInput');
+    addInput.addEventListener('keydown', function(event){
+      if (event.keyCode == 13){
+        if(addTodosTextInput.value != ''){
+            handlers.addTodo();
+        }
       }
     });
   }
