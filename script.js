@@ -126,12 +126,18 @@ let view = {
       }
     });
 
-    //TODO: set up event listener for enter key if a field is selected
-    let addInput = document.getElementById('addTodosTextInput');
-    addInput.addEventListener('keydown', function(event){
+    //Set up event listener for enter key if a field is selected
+    let inputSection = document.getElementById('inputSection');
+    inputSection.addEventListener('keydown', function(event){
       if (event.keyCode == 13){
-        if(addTodosTextInput.value != ''){
+        console.log(event);
+        //check which field was clicked - run the appropriate handler method
+        if(event.target.id === "addTodosTextInput" && event.target.value != ''){
             handlers.addTodo();
+        } else if(event.target.id === "toggleTodoPositionInput"){
+            handlers.toggleCompleted();
+        } else if(event.target.id === "changeTodoPositionInput" || event.target.id === "changeTodoTextInput"){
+            handlers.changeTodo();
         }
       }
     });
